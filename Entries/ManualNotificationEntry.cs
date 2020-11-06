@@ -7,15 +7,18 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Funda.Extensions.Messaging;
+using Microsoft.Azure.Functions.Extensions.DependencyInjection;
+using Funda.RealCloudNotifications.Messaging;
 
-namespace Funda.RealCloudNotifications.Entries.ManualNotification
+[assembly: FunctionsStartup(typeof(Funda.RealCloudNotifications.Startup))]
+
+namespace Funda.RealCloudNotifications.Entries
 {
   public class ManualNotificationEntry
     {
-        private readonly IMessageBus _messageBus;
+        private readonly IMessageSender _messageBus;
 
-        public ManualNotificationEntry(IMessageBus messageBus)
+        public ManualNotificationEntry(IMessageSender messageBus)
         {
             _messageBus = messageBus;
         }
@@ -30,12 +33,12 @@ namespace Funda.RealCloudNotifications.Entries.ManualNotification
             string name = req.Query["name"];
 
             // Post a message to the service bus
-            var message = new HelloMessage
+            var message = new NotificationMessage
             {
                 Name = name,
                 Greeting = "Good afternoon"
             };
-            await _messageBus.PublishAsync(message);
+            await _messageBus.SendAsync(message, "NotificationsQueue");
 
             // Do the default behaviour
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
