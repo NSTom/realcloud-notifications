@@ -11,6 +11,7 @@ namespace Funda.RealCloudNotifications
         public override void Configure(IFunctionsHostBuilder builder)
         {
             builder.Services.AddTransient<IMessageSender, MessageSender>();
+            builder.Services.AddTransient<IMessageOpener, MessageOpener>();
         }
     }
 }
