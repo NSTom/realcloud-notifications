@@ -9,15 +9,6 @@ using System.Text;
 
 namespace Funda.RealCloudNotifications.Messaging
 {
-    public interface IMessageSender
-    {
-        Task SendAsync(IMessage message, string queueName);
-    }
-
-    public interface IMessage
-    {
-    }
-
     public class MessageSender : IMessageSender
     {
         public async Task SendAsync(IMessage message, string queueName)

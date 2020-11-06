@@ -14,7 +14,7 @@ using Funda.RealCloudNotifications.Messaging;
 
 namespace Funda.RealCloudNotifications.Entries
 {
-  public class ManualNotificationEntry
+    public class ManualNotificationEntry
     {
         private readonly IMessageSender _messageBus;
 
